@@ -1,4 +1,4 @@
 def testservice() {
-  sh 'echo in sercies'
+  sh 'echo inservices'
 }
 return this
