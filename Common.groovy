@@ -7,7 +7,7 @@
 }
 else if(pckg == 'lambdas'){
   def pipeserv=load 'pipeline/ui-web.groovy'
-  pipeserv.testservices()
+  pipeserv.testservice()
 }
 */
 
