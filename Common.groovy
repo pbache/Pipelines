@@ -12,11 +12,6 @@ else if(pckg == 'lambdas'){
 */
 
 
-
-
-
-
-
 def name = sh ( script: 'git show --name-only origin/master' , returnStdout:true).trim()/split('/')
 println("----------output-----------")
 for (i = 0; i < name.length; i++)
