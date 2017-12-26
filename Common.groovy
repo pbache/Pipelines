@@ -1,10 +1,10 @@
 def prep(){
   def name = sh (script: 'git whatchanged -n 1 --pretty=format: --name-only',returnStdout:true).trim().split("/")
   def pckg=name.length>1?name[1]:'full'
-  currentBuild.displayName = name+currentBuild.displayName
+  currentBuild.displayName = pckg+currentBuild.displayName
   println("----------output-----------")
   //sh 'git log --pretty=online:"%h" --graph -<n>'
-  switch (name){
+  switch (pckg){
     case 'ui-web':
       me = 'ui-web'
       break
