@@ -4,11 +4,11 @@ def prep(){
   for (i = 0; i < name.length; i++){
     println(name[i])
   if(name[i] == 'ui-web'){
-    def pipeui=load 'ui-web.groovy'
+    def pipeui=load 'Pipelines/ui-web.groovy'
     pipeui.testui()
   }
   else if(name[i] == 'lambdas'){
-    def pipeserv=load 'lambdas.groovy'
+    def pipeserv=load 'Pipelines/lambdas.groovy'
     pipeserv.testservices()
   }
 }
