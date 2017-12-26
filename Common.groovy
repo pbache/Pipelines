@@ -1,7 +1,7 @@
 def prep(){
   def name = sh ( script: 'git show --name-only origin/master' , returnStdout:true).trim().split('/')
   println("----------output-----------")
-  for (i = 0; i < name.length; i++)
+  for (i = 0; i < name.length; i++){
     println(name[i])
   if(name[i] == 'ui-web'){
     def pipeui=load 'ui-web.groovy'
@@ -11,6 +11,7 @@ def prep(){
     def pipeserv=load 'lambdas.groovy'
     pipeserv.testservices()
   }
+}
 }
 return this
 
