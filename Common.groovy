@@ -7,7 +7,7 @@ def prep(){
     def pipeui=load 'Pipelines/ui-web.groovy'
     pipeui.testui()
   }
-  else if(name[i] == 'lambdas'){
+  if(name[i] == 'lambdas'){
     def pipeserv=load 'Pipelines/lambdas.groovy'
     pipeserv.testservice()
   }
