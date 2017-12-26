@@ -4,7 +4,7 @@ def prep(){
   //currentBuild.displayName = pckg+currentBuild.displayName
   println("----------output-----------")
   //sh 'git log --pretty=online:"%h" --graph -<n>'
-  /*switch (name){
+  switch (name){
     case 'ui-web':
       me = 'ui-web'
       break
@@ -13,20 +13,19 @@ def prep(){
       break
     case 'default':
       break
-  }*/
-  for (i = 0; i < name.length; i++){
-     println(name[i])
-   if(name == 'ui-web'){
+  }
+  //for (i = 0; i < name.length; i++){
+   //  println(name[i])
+   if(me == 'ui-web'){
      def pipeui=load 'Pipelines/ui-web.groovy'
      pipeui.testui()
      currentBuild.displayName = name[i]+currentBuild.displayName
    }
-   if(name == 'lambdas'){
+   if(me == 'lambdas'){
      def pipeserv=load 'Pipelines/lambdas.groovy'
      pipeserv.testservice()
      currentBuild.displayName = name[i]+currentBuild.displayName
     }
-  }
 }
 return this
 
