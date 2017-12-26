@@ -5,13 +5,13 @@ def prep(){
   println("----------output-----------")
   //sh 'git log --pretty=online:"%h" --graph -<n>'
   switch (name){
-    case 'ui-web'
+    case 'ui-web':
       me = 'ui-web'
       break
-    case 'lambdas'
+    case 'lambdas':
       me = 'lambdas'
       break
-    case 'default'
+    case 'default':
       break
   }
   //for (i = 0; i < name.length; i++){
