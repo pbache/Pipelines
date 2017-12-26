@@ -11,8 +11,8 @@ def prep(){
     def pipeserv=load 'lambdas.groovy'
     pipeserv.testservices()
   }
-
 }
+return this
 
 
 
