@@ -28,7 +28,7 @@ else if(name[i] == 'lambdas'){
 
 
 
-node{
+/*node{
   checkout scm
   concurrency : 2
   print 'something'
