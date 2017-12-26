@@ -13,6 +13,7 @@ def prep(){
      pipeserv.testservice()
      currentBuild.displayName = name[i]+currentBuild.displayName
     }
+  }
 }
 return this
 
