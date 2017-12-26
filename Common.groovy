@@ -3,7 +3,7 @@ def prep(){
   //def pckg=name.length>1?name[1]:'full'
   //currentBuild.displayName = pckg+currentBuild.displayName
   println("----------output-----------")
-  sh 'git log --pretty=online:"%h" --graph -<n>'
+  //sh 'git log --pretty=online:"%h" --graph -<n>'
   /*switch (name){
     case 'ui-web':
       me = 'ui-web'
