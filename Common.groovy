@@ -1,7 +1,7 @@
 def prep(){
   def name = sh (script: 'git show --name-only origin/master',returnStdout:true).trim().split("/")
   println("----------output-----------")
-  sh 'git log --pretty=online:"%h" --graph -<n>'
+  //sh 'git log --pretty=online:"%h" --graph -<n>'
   for (i = 0; i < name.length; i++){
       println(name[i])
     if(name[i] == 'ui-web'){
