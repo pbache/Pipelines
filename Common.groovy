@@ -1,5 +1,5 @@
 def prep(){
-  def name = sh ( script: 'git show --name-only origin/master' , returnStdout:true).trim().split('/')
+  def name = sh ( script: 'git show --name-only origin/master' , returnStdout:true).trim().split("/")[0]
   println("----------output-----------")
   for (i = 0; i < name.length; i++){
     println(name[i])
