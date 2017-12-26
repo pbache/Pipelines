@@ -1,10 +1,10 @@
 def prep(){
   def name = sh (script: 'git show --name-only origin/master',returnStdout:true).trim().split('/')
-  //def pckg=name.length>1?name[1]:'full'
+  def pckg=name.length>1?name[1]:'full'
   //currentBuild.displayName = pckg+currentBuild.displayName
   println("----------output-----------")
   //sh 'git log --pretty=online:"%h" --graph -<n>'
-  switch (name){
+  switch (pckg){
     case 'ui-web':
       me = 'ui-web'
       break
