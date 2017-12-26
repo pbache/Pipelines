@@ -9,7 +9,7 @@ def prep(){
   }
   else if(name[i] == 'lambdas'){
     def pipeserv=load 'Pipelines/lambdas.groovy'
-    pipeserv.testservices()
+    pipeserv.testservice()
   }
 }
 }
