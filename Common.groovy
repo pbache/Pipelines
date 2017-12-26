@@ -27,7 +27,6 @@ def prep(){
      //currentBuild.displayName = name[i]+currentBuild.displayName
     }
   }
-}
 return this
 
 
