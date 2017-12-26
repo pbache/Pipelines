@@ -1,5 +1,5 @@
 def prep(){
-  def name = sh (script: 'git show --name-only origin/master',returnStdout:true).trim().split("/")
+  def name = sh (script: 'git show --name-only origin/master',returnStdout:true).trim().split("/")[1]
   //def pckg=name.length>1?name[1]:'full'
   //currentBuild.displayName = pckg+currentBuild.displayName
   println("----------output-----------")
