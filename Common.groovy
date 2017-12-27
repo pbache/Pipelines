@@ -3,12 +3,12 @@ def prep(){
   println("----------output-----------")
   for (i = 0; i < name.length; i++){
      println(name[i])
-   if(name == 'ui-web'){
+   if(name[i] == 'ui-web'){
      def pipeui=load 'Pipelines/ui-web.groovy'
      pipeui.testui()
      currentBuild.displayName = name[i]+currentBuild.displayName
    }
-   if(name == 'lambdas'){
+   if(name[i] == 'lambdas'){
      def pipeserv=load 'Pipelines/lambdas.groovy'
      pipeserv.testservice()
      currentBuild.displayName = name[i]+currentBuild.displayName
