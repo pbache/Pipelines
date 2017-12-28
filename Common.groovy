@@ -1,5 +1,5 @@
-def prep($buildenv){
-  println("will deploy to ${buildenv}")
+def prep(def build_env){
+  println("will deploy to ${build_env}")
   def name = sh (script: 'git whatchanged -n 1 --pretty=format: --name-only',returnStdout:true).trim().split('/')
   println("----------output-----------")
   for (i = 0; i < name.length; i++){
