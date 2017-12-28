@@ -69,7 +69,7 @@ def build() {
 def deploy(def dep_env) {
     stage('Deploy Lambda ("${dep_env}")') {
 
-        def STAGE = 'STG'
+        def STAGE = "${dep_env}"
         def env_var = "-e VAULT_PATH='${VAULT_PATH}' -e STAGE='${STAGE}' -e LDAP_USR='sainatjadmin' -e LDAP_PSW='Good4now' -e VAULT_ADDR='${VAULT_ADDR}'"
             docker.image("${env.DEPLOY_TOOLS_IMAGE}").inside(env_var){
             if ("${env.isMasterBranch}") {
