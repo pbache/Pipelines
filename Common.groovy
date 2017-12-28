@@ -1,20 +1,34 @@
-def prep(def build_env){
+def prep_common(def build_env){
   println("will deploy to ${build_env}")
   def name = sh (script: 'git whatchanged -n 1 --pretty=format: --name-only',returnStdout:true).trim().split('/')
-  println("----------output-----------")
   for (i = 0; i < name.length; i++){
      println(name[i])
    if(name[i] == 'ui-web'){
-     def pipeui=load 'Pipelines/ui-web.groovy'
-     pipeui.testui()
-     currentBuild.displayName = name[i]+currentBuild.displayName
-   }
-   if(name[i] == 'lambdas'){
-     def pipeserv=load 'Pipelines/lambdas.groovy'
-     pipeserv.testservice()
-     currentBuild.displayName = name[i]+currentBuild.displayName
-    }
-  }
+      currentBuild.displayName = name[i]+currentBuild.displayName
+      def pipeui=load 'Pipelines/ui-web.groovy'
+      pipeui.setup_env()
+      pipeui.prep(common_jenkins, common_scm, package_path, package_contents)
+      pipeui.unit_tests(package_path)
+  } else if(name[i] == 'lambdas') {
+      currentBuild.displayName = name[i]+currentBuild.displayName
+      def pipeserv=load 'Pipelines/lambdas.groovy'
+      pipeui.setup_env(package_path)
+      pipeui.prep()
+      pipeui.build()
+      if($build_env == 'ALL'){
+         pipeui.deploy("stg")
+        pipeui.unit_tests()
+         pipeui.deploy("dev")
+        pipeui.unit_tests()
+         pipeui.deploy("prod")
+        pipeui.unit_tests()
+      } else {
+        pipeui.deploy("${build_env}")
+      }
+     
+      pipeui.api_tests()
+      pipeui.post_install()
+ }
 }
 return this
 
