@@ -66,10 +66,26 @@ def build() {
     }
 }
 
-def deploy(def dep_env) {
+/*def deploy(def dep_env) {
     stage('Deploy Lambda ("${dep_env}")') {
 
         def STAGE = "${dep_env}"
+        def env_var = "-e VAULT_PATH='${VAULT_PATH}' -e STAGE='${STAGE}' -e LDAP_USR='sainatjadmin' -e LDAP_PSW='Good4now' -e VAULT_ADDR='${VAULT_ADDR}'"
+            docker.image("${env.DEPLOY_TOOLS_IMAGE}").inside(env_var){
+            if ("${env.isMasterBranch}") {
+                sh "bash /bin/aws_auth"
+                sh "cd packages/services && serverless create_domain || exit 0"
+                sh "cd packages/services && serverless package --package ./.serverless-dev"
+                sh "cd packages/services && serverless deploy --package .serverless-dev"
+            }
+        }
+    }
+}*/
+
+def deploy() {
+    stage('Deploy Lambda (DEV)') {
+
+        def STAGE = 'STG'
         def env_var = "-e VAULT_PATH='${VAULT_PATH}' -e STAGE='${STAGE}' -e LDAP_USR='sainatjadmin' -e LDAP_PSW='Good4now' -e VAULT_ADDR='${VAULT_ADDR}'"
             docker.image("${env.DEPLOY_TOOLS_IMAGE}").inside(env_var){
             if ("${env.isMasterBranch}") {
@@ -86,6 +102,52 @@ def api_tests() {
     stage('API Tests') {
         build job: '../feynman-selenium-ci/master', 
             parameters: [[$class: 'StringParameterValue', name: 'TestSuite', value: 'user_profile']]
+    }
+}
+//Uncomment to deploy to different environments
+def deploy_int() {
+    stage('Deploy Lambda (INT)') {
+        def STAGE = 'int'
+        def env_var = "-e VAULT_PATH='${VAULT_PATH}' -e STAGE='${STAGE}' -e LDAP_USR='' -e LDAP_PSW='' -e VAULT_ADDR='${VAULT_ADDR}'"
+            docker.image("${env.DEPLOY_TOOLS_IMAGE}").inside(env_var){
+            if ("${env.isMasterBranch}") {
+                sh "bash /bin/aws_auth"
+                sh "cd packages/services && serverless create_domain --stage compose || exit 0"
+                sh "cd packages/services && serverless package"
+                sh "cd packages/services && serverless deploy --package ./.serverless"
+            }
+            currentBuild.result = "${env.SUCCESS}" // TODO remove this when commenting out other stages
+        }
+    }
+}
+def deploy_stg() {  
+    stage('Deploy Lambda (STG)') {
+        def STAGE = 'stg'
+        def env_var = "-e VAULT_PATH='${VAULT_PATH}' -e STAGE='${STAGE}' -e LDAP_USR='' -e LDAP_PSW='' -e VAULT_ADDR='${VAULT_ADDR}'"
+            docker.image("${env.DEPLOY_TOOLS_IMAGE}").inside(env_var){
+            if ("${env.isMasterBranch}") {
+                sh "bash /bin/aws_auth"
+                sh "cd packages/services && serverless create_domain --stage compose || exit 0"
+                sh "cd packages/services && serverless package"
+                sh "cd packages/services && serverless deploy --package ./.serverless"
+            }
+            currentBuild.result = "${env.SUCCESS}" // TODO remove this when commenting out other stages
+        }
+    }
+}
+def deploy_prd() {  
+    stage('Deploy Lambda (STG)') {
+        def STAGE = 'prd'
+        def env_var = "-e VAULT_PATH='${VAULT_PATH}' -e STAGE='${STAGE}' -e LDAP_USR='' -e LDAP_PSW='' -e VAULT_ADDR='${VAULT_ADDR}'"
+            docker.image("${env.DEPLOY_TOOLS_IMAGE}").inside(env_var){
+            if ("${env.isMasterBranch}") {
+                sh "bash /bin/aws_auth"
+                sh "cd packages/services && serverless create_domain --stage compose || exit 0"
+                sh "cd packages/services && serverless package"
+                sh "cd packages/services && serverless deploy --package ./.serverless"
+            }
+            currentBuild.result = "${env.SUCCESS}" // TODO remove this when commenting out other stages
+        }
     }
 }
 def post_install () {
