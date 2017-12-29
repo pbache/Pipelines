@@ -21,7 +21,6 @@ def prep_common(def build_env){
          pipeui.deploy("dev")
         pipeui.unit_tests()
          pipeui.deploy("prod")
-        pipeui.unit_tests()
       } else {
         pipeui.deploy("${build_env}")
       }
