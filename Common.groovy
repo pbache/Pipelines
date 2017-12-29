@@ -1,4 +1,4 @@
-def prep_common(def build_env){
+/*def prep_common(def build_env){
   println("will deploy to ${build_env}")
   def name = sh (script: 'git whatchanged -n 1 --pretty=format: --name-only',returnStdout:true).trim().split('/')
   for (i = 0; i < name.length; i++){
@@ -30,6 +30,6 @@ def prep_common(def build_env){
  }
 }
 return this
-
+*/
 
 
