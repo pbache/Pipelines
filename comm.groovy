@@ -25,11 +25,9 @@ def startup(def build_env){
   for (i = 0; i < name.length; i++){
   println(name[i])
   if(name[i] == 'ui-web'){
-    currentBuild.displayName = name[i]+currentBuild.displayName
     def pipeui=load 'Pipelines/ui-web.groovy'
     pipeui.unit_tests(package_path)
   } else if(name[i] == 'lambdas') {
-      currentBuild.displayName = name[i]+currentBuild.displayName
       def pipeserv=load 'Pipelines/lambdas.groovy'
       pipeserv.deploy("dev")
       pipeserv.api_tests()
@@ -42,20 +40,18 @@ def startup(def build_env){
  }
  def tearDown(def build_env){
   println("will deploy to ${build_env}")
-  def name = sh (script: 'git whatchanged -n 1 --pretty=format: --name-only',returnStdout:true).trim().split('/')
   for (i = 0; i < name.length; i++){
     println(name[i])
     if(name[i] == 'ui-web'){
-      currentBuild.displayName = name[i]+currentBuild.displayName
       def pipeui=load 'Pipelines/ui-web.groovy'
-        pipeui.fetch_release_candidate_tag(version, hash, build_id)
-        pipeui.fetch_release_candidate_tag(version, hash, build_id)
-        pipeui.get_release_tag(release_candidate_tag)
-        pipeui.run_shell_script(command)
-     } else if(name[i] == 'lambdas') {
-        currentBuild.displayName = name[i]+currentBuild.displayName
+      pipeui.fetch_release_candidate_tag(version, hash, build_id)
+      pipeui.semver(increment, version)
+      pipeui.get_release_tag(release_candidate_tag)
+      pipeui.run_shell_script(command)
+     } 
+     else if(name[i] == 'lambdas') {
         def pipeserv=load 'Pipelines/lambdas.groovy'
         pipeserv.post_install ()
-        }
      }
+   }
  }
