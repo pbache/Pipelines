@@ -56,7 +56,7 @@ def startup(string package_path, def grovy_obj){
 
 }
 
-def tear-down(string package_path, def grovy_obj){
+def tear_down(string package_path, def grovy_obj){
   	if(package_path = lambda){
         	grovy_obj.post_install()
 	}
