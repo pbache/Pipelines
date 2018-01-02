@@ -111,6 +111,11 @@
 							}
 						}
 					}
+					
+					PrepSTG = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${PrepSTG ? "Succeeded" : "Failed"}: ${BUILD_INFO}",
+							teamDomain: 'autodesk', token: "${env.SLACK_TOKEN}", channel: "${env.TEAM_SLACK_CHANNEL}",
+							color: "${PrepSTG ? "good" : "danger"}")
 				}
 	}
        
@@ -130,6 +135,10 @@
 						}
 					}
 				}
+					unitTestsStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${unitTestsStage ? "Succeeded" : "Failed"}: ${BUILD_INFO}",
+							teamDomain: 'autodesk', token: "${env.SLACK_TOKEN}", channel: "${env.TEAM_SLACK_CHANNEL}",
+							color: "${unitTestsStage ? "good" : "danger"}")
 			}
 	}
 	
@@ -152,6 +161,11 @@
 						}
 					}
 				}
+				geminiTestsStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${geminiTestsStage ? "Succeeded" : "Failed"}: ${BUILD_INFO}",
+							teamDomain: 'autodesk', token: "${env.SLACK_TOKEN}", channel: "${env.TEAM_SLACK_CHANNEL}",
+							color: "${geminiTestsStage ? "good" : "danger"}")
+				
 			}
 	}
 
@@ -171,6 +185,10 @@
 						}
 					}
 				}
+				buildPublishStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${buildPublishStage? "Succeeded" : "Failed"}: ${BUILD_INFO}",
+							teamDomain: 'autodesk', token: "${env.SLACK_TOKEN}", channel: "${env.TEAM_SLACK_CHANNEL}",
+							color: "${buildPublishStage ? "good" : "danger"}")
 			}
 	}
 
@@ -193,6 +211,11 @@
 						}
 					}
 				}
+				versionChangelogTagStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${versionChangelogTagStage? "Succeeded" : "Failed"}: ${BUILD_INFO}",
+							teamDomain: 'autodesk', token: "${env.SLACK_TOKEN}", channel: "${env.TEAM_SLACK_CHANNEL}",
+							color: "${versionChangelogTagStage ? "good" : "danger"}")
+				
 			}
 	}
 	
@@ -214,6 +237,10 @@
 						}
 					}
 				}
+				deployStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${deployStage? "Succeeded" : "Failed"}: ${BUILD_INFO}",
+							teamDomain: 'autodesk', token: "${env.SLACK_TOKEN}", channel: "${env.TEAM_SLACK_CHANNEL}",
+							color: "${deployStage ? "good" : "danger"}")
 			}
 	}
 
@@ -238,6 +265,8 @@
 					masterBranch && slackSend(message: "Push by ${env.AUTHOR} - Build ${success ? "Succeeded" : "Failed"}: ${env.BUILD_INFO}",
 						teamDomain: 'autodesk', token: "${env.SLACK_TOKEN}", channel: "${env.TEAM_SLACK_CHANNEL}",
 						color: "${success ? "good" : "danger"}")  
+						
+						
 				}
 			}
 		}

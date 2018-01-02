@@ -31,70 +31,40 @@
 }
 return this
 */
-setup() {
-}
 
-def start() {
+def username = System.console().readLine 'are you ok to deploy in to production?'
+println "Hello $username"
 
-	if (service == ui)
-	{
-	@Library('PSL') _
-	def common_jenkins = new ors.utils.common_jenkins(steps, env)
-	def common_scm = new ors.utils.common_scm(steps, env)
-
-	 //   environment {
-			/*
-			These variables should change according to team/project
-			*/
-			def TEAM_SLACK_CHANNEL="#spg-feynman-ci"
-			def TEAM_EMAIL="m2s6m0x4t8p6v0q0@autodesk.slack.com"
-			def SERVICE_ACCOUNT=credentials('svc_p_account_id')
-			def VAULT_PATH = 'spg/feynman-dev/aws/adsk-eis-feynman-dev/sts/admin'
-			def CDN="s3://cdn-dev-manage.autodesk.com"
-			/*
-			These shouldn't change unless you have your own build container or NPM registry
-			*/
-			def NPM_REGISTRY="https://art-bobcat.autodesk.com/artifactory/"
-			def NPM_AUTH="api/npm/auth"
-			def NPM_VIRTUAL_REPO="api/npm/autodesk-npm-virtual/"
-			def BUILD_CONTAINER_IMAGE="autodesk-docker.art-bobcat.autodesk.com:10873/team-account/build-npm:latest"
-			def DEPLOY_CONTAINER_IMAGE="autodesk-docker.art-bobcat.autodesk.com:10873/team-spg/bedrock-build-terraform:latest"
-			def VAULT_ADDR = 'https://vault.aws.autodesk.com'
-			def BUILD_INFO="${env.JOB_NAME} ${env.BUILD_NUMBER} \n ${env.BUILD_URL}";
-			def SLACK_TOKEN=credentials('ors_slack_token')
-			def CI=true
-	  //  }
-	}
-//lambda	
-	
-	if (service == lambda){	
-	//def WORKER = 'cloud&&centos'
-
-	// Build Configuration
-	def BUILD_IMAGE = 'node:8'
-	def BUILD_INFO_LAMBDA = "${env.JOB_NAME}-${env.BUILD_NUMBER}\n${env.BUILD_URL}"
-
-	// Deploy Configuration
-	def DEPLOY_TOOLS_IMAGE = 'autodesk-docker.art-bobcat.autodesk.com:10873/team-spg/bedrock-build-terraform:latest'
-
-	// Notifications
-	def TEAM_SLACK_CHANNEL = '#spg-feynman-ci'
-
-	// Build Status
-	def SUCCESS = 'SUCCESS'
-	def isMasterBranch = false
-
-	}
-
-	pipeline {
-		agent {
-			label 'cloud&&centos'
-		}
+def setUp(){
+	 stage('setUp'){
+	 def me =sh (script:'git diff HEAD^ HEAD --name-only',returnStdout:true).trim().split('/')
+	 pckg= me.length>1?me[1]:'full'
+	 
+	 currentBuild.displayName = pckg+currentBuild.displayName
 	 }
- 
- }
-
-
-
-
+	}
+def start(){
+	 def lambda_pipeline=load './pipelines/lambdas.groovy'
+	 def uiweb_pipeline=load './pipelines/ui-web.groovy'
+	 if(pckg=='full'){
+	   print 'full'
+	   lambda_pipeline.start()
+	   uiweb_pipeline.start()
+	 }
+	 else if(pckg=='lambda')
+	 {
+	   lambda_pipeline.start()
+	 }
+	 else if(pckg=='ui-web')
+	 {
+	   uiweb_pipeline.start()
+	 }
+	}
+def tearDown(){
+	 stage('tearDown'){
+	 print 'this is tearDown'
+	 }
+	}
+	return this
+	
 

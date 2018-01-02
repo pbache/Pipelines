@@ -60,6 +60,10 @@
 						}
 					}
 				}
+				prepareStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${prepareStage ? "Succeeded" : "Failed"}: ${BUILD_INFO_LAMBDA}",
+							teamDomain: 'autodesk', token: "${SLACK_TOKEN}", channel: "${TEAM_SLACK_CHANNEL}",
+							color: "${prepareStage ? "good" : "danger"}")
 		}		
 	}
 		
@@ -81,7 +85,12 @@
 					sh 'find . -type d -print0 | xargs -0 chmod 0755'
 					sh 'find . -type f -print0 | xargs -0 chmod 0644'
 				}
-			}
+				BuildStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${BuildStage ? "Succeeded" : "Failed"}: ${BUILD_INFO_LAMBDA}",
+							teamDomain: 'autodesk', token: "${SLACK_TOKEN}", channel: "${TEAM_SLACK_CHANNEL}",
+							color: "${BuildStage ? "good" : "danger"}")	
+							
+		}
 	}		
 		
 	def deployDev(){
@@ -106,8 +115,15 @@
 							sh 'serverless deploy --package .serverless-dev'
 						}
 					}
-				}
+				
+				} 
+				DeployStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${DeployeStage ? "Succeeded" : "Failed"}: ${BUILD_INFO_LAMBDA}",
+							teamDomain: 'autodesk', token: "${SLACK_TOKEN}", channel: "${TEAM_SLACK_CHANNEL}",
+							color: "${DeployeStage ? "good" : "danger"}")
+			
 			}
+			
 	}
 	
 	def deployCompose(){
@@ -133,7 +149,12 @@
 						}
 						currentBuild.result = SUCCESS // TODO remove this when commenting out other stages
 					}
+				
 				}
+				deployeComposeStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${deployeComposeStage ? "Succeeded" : "Failed"}: ${BUILD_INFO_LAMBDA}",
+							teamDomain: 'autodesk', token: "${SLACK_TOKEN}", channel: "${TEAM_SLACK_CHANNEL}",
+							color: "${deployeComposeStage ? "good" : "danger"}")
 			}
 	}
 //      Uncomment to deploy to different environments
@@ -158,6 +179,10 @@
 						}
 					}
 				}
+				deployINTStage = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${deployINTStage ? "Succeeded" : "Failed"}: ${BUILD_INFO_LAMBDA}",
+							teamDomain: 'autodesk', token: "${SLACK_TOKEN}", channel: "${TEAM_SLACK_CHANNEL}",
+							color: "${deployINTStage ? "good" : "danger"}")
 			}
 	}
 		
@@ -182,6 +207,10 @@
 						}
 					}
 				}
+				deploySTG = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${deploySTG ? "Succeeded" : "Failed"}: ${BUILD_INFO_LAMBDA}",
+							teamDomain: 'autodesk', token: "${SLACK_TOKEN}", channel: "${TEAM_SLACK_CHANNEL}",
+							color: "${deploySTG ? "good" : "danger"}")
 			}
 	}
 		
@@ -208,6 +237,11 @@
 					}
 				}
 			}
+			deployPRD = currentBuild.result = SUCCESS
+				slackSend(message: "Build ${deployPRD ? "Succeeded" : "Failed"}: ${BUILD_INFO_LAMBDA}",
+							teamDomain: 'autodesk', token: "${SLACK_TOKEN}", channel: "${TEAM_SLACK_CHANNEL}",
+							color: "${deployPRD ? "good" : "danger"}")
+			
 	}
 		
 	def post(){
