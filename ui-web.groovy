@@ -31,13 +31,7 @@
 }
 return this
 */
-setup() 
 
-{
-
-
-
-}
 def start() {
 
 	if (service == ui)
